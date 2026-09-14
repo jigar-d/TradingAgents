@@ -22,7 +22,7 @@ def test_every_select_llm_provider_choice_has_an_entry():
         "qwen", "qwen-cn",
         "glm", "glm-cn",
         "minimax", "minimax-cn",
-        "openrouter", "azure", "ollama",
+        "openrouter", "azure", "ollama", "codex",
     }
     assert expected.issubset(PROVIDER_API_KEY_ENV.keys())
 
@@ -51,6 +51,10 @@ def test_known_providers_resolve(provider, env_var):
 
 def test_ollama_has_no_key():
     assert get_api_key_env("ollama") is None
+
+
+def test_codex_uses_chatgpt_sign_in_not_api_key():
+    assert get_api_key_env("codex") is None
 
 
 def test_unknown_provider_returns_none():

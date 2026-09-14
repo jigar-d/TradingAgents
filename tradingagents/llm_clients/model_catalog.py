@@ -109,6 +109,9 @@ MODEL_OPTIONS: ProviderModeOptions = {
             ("GPT-5.4 - Cost-effective, 1M context", "gpt-5.4"),
         ],
     },
+    # Models are selected by the local Codex installation; keep custom IDs
+    # available because the account's model catalog can change over time.
+    "codex": _CUSTOM_ONLY,
     "anthropic": {
         "quick": [
             ("Claude Sonnet 5 - Best speed and intelligence balance", "claude-sonnet-5"),

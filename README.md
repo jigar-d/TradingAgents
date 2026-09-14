@@ -154,6 +154,17 @@ For AWS Bedrock, install the extra with `pip install ".[bedrock]"`, set `llm_pro
 
 For local models, configure Ollama with `llm_provider: "ollama"`. The default endpoint is `http://localhost:11434/v1`; set `OLLAMA_BASE_URL` to point at a remote `ollama-serve`. Pull models with `ollama pull <name>`, and pick "Custom model ID" in the CLI for any model not listed by default.
 
+To use a ChatGPT subscription through Codex instead of an OpenAI API key, install the Codex CLI and sign in with `codex login`. Then select **Codex (ChatGPT subscription)** in the CLI. For a non-interactive run, configure:
+
+```bash
+TRADINGAGENTS_LLM_PROVIDER=codex \
+TRADINGAGENTS_DEEP_THINK_LLM=gpt-5.6-terra \
+TRADINGAGENTS_QUICK_THINK_LLM=gpt-5.6-luna \
+python -m cli.main
+```
+
+The Codex provider uses the local Codex App Server for ChatGPT sign-in, model turns, and tool calls; it does not require `OPENAI_API_KEY`. Keep the model IDs aligned with the models available to your Codex account. The App Server's dynamic-tool protocol is currently experimental.
+
 For any other OpenAI-compatible server (vLLM, LM Studio, llama.cpp, or a custom relay), use `llm_provider: "openai_compatible"` and set the endpoint via `backend_url` (or `TRADINGAGENTS_LLM_BACKEND_URL`), e.g. `http://localhost:8000/v1` for vLLM or `http://localhost:1234/v1` for LM Studio. The model is whatever your server serves. No key is needed for local servers; set `OPENAI_COMPATIBLE_API_KEY` when the endpoint requires one.
 
 Alternatively, copy `.env.example` to `.env` and fill in your keys:
@@ -198,7 +209,7 @@ An interface will appear showing results as they load, letting you track the age
 
 ### Implementation Details
 
-We built TradingAgents with LangGraph to ensure flexibility and modularity. The framework supports multiple LLM providers: OpenAI, Google, Anthropic, xAI, DeepSeek, Qwen (Alibaba DashScope, international and China endpoints), GLM (Zhipu), MiniMax (global + China), OpenRouter, Ollama for local models, and Azure OpenAI for enterprise.
+We built TradingAgents with LangGraph to ensure flexibility and modularity. The framework supports multiple LLM providers: OpenAI, Codex through ChatGPT sign-in, Google, Anthropic, xAI, DeepSeek, Qwen (Alibaba DashScope, international and China endpoints), GLM (Zhipu), MiniMax (global + China), OpenRouter, Ollama for local models, and Azure OpenAI for enterprise.
 
 ### Python Usage
 
