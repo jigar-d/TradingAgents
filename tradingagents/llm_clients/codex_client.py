@@ -57,12 +57,29 @@ def _system_text(messages: list[BaseMessage]) -> str:
 
 def _schema_for(schema: Any) -> dict[str, Any]:
     if isinstance(schema, dict):
-        return schema
-    if hasattr(schema, "model_json_schema"):
-        return schema.model_json_schema()
-    if hasattr(schema, "schema"):
-        return schema.schema()
-    raise TypeError(f"Unsupported structured output schema: {schema!r}")
+        result = dict(schema)
+    elif hasattr(schema, "model_json_schema"):
+        result = schema.model_json_schema()
+    elif hasattr(schema, "schema"):
+        result = schema.schema()
+    else:
+        raise TypeError(f"Unsupported structured output schema: {schema!r}")
+
+    def close_objects(node: Any) -> None:
+        if not isinstance(node, dict):
+            return
+        if node.get("type") == "object":
+            node.setdefault("additionalProperties", False)
+        for value in node.values():
+            if isinstance(value, (dict, list)):
+                if isinstance(value, dict):
+                    close_objects(value)
+                else:
+                    for item in value:
+                        close_objects(item)
+
+    close_objects(result)
+    return result
 
 
 def _parse_schema(schema: Any, value: str) -> Any:

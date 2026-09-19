@@ -1,0 +1,13 @@
+{
+  "symbols": ["SPY", "QQQ", "NVDA", "MSFT", "AAPL", "AMZN", "GOOGL", "META"],
+  "trade_amount_usd": 5.0,
+  "holding_period_days": [10, 60],
+  "max_new_positions_per_day": 1,
+  "max_new_positions_per_week": 3,
+  "max_single_stock_weight": 0.08,
+  "minimum_signal": "Buy",
+  "allow_options": false,
+  "allow_leverage": false,
+  "require_manual_order_confirmation": true,
+  "results_dir": "reports/daily_strategy"
+}

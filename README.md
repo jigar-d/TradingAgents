@@ -227,6 +227,24 @@ An interface will appear showing results as they load, letting you track the age
 
 ## TradingAgents Package
 
+### Daily selective trading setup
+
+The repository includes a small, research-only daily scan in `strategy.json` and
+`scripts/daily_strategy.py`. It evaluates a fixed universe, limits each candidate
+to a $5 notional, and writes a dated JSON result under `reports/daily_strategy`.
+It never places brokerage orders; any Robinhood order still requires a separate
+review and explicit approval.
+
+Run it with:
+
+```bash
+python3 scripts/daily_strategy.py
+```
+
+The default rules are selective swing trading: a 10–60 day holding window, at
+most one new position per day, three per week, no options or leverage, and an 8%
+maximum target weight for a single stock.
+
 ### Implementation Details
 
 We built TradingAgents with LangGraph to ensure flexibility and modularity. The framework supports multiple LLM providers: OpenAI, Codex through ChatGPT sign-in, Google, Anthropic, xAI, DeepSeek, Qwen (Alibaba DashScope, international and China endpoints), GLM (Zhipu), MiniMax (global + China), OpenRouter, Ollama for local models, and Azure OpenAI for enterprise.
